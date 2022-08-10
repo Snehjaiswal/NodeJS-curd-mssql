@@ -77,11 +77,25 @@ const deleteEvent = async (eventId) => {
         return error.message;
     }
 }
+const searchEvent = async (search1) => {
+    try {
+        let pool = await sql.connect(config.sql);
+        const sqlQueries = await utils.loadSqlQueries('events');
+        const search = await pool.request()
+                        .input('search', sql.Int, search1)
+                        .query(sqlQueries.searchEvents);
+        return search.recordset;
+    } catch (error) {
+        return error.message;
+    }
+}
+
 
 module.exports = {
     getEvents,
     getById,
     createEvent,
     updateEvent,
-    deleteEvent
+    deleteEvent,
+    searchEvent
 }

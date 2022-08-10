@@ -5,7 +5,8 @@ const eventData = require('../data/events');
 const getEvents = async (req, res, next) => {
     try {
         const events = await eventData.getEvents();
-        res.send(events);        
+        res.send(events); 
+        // console.log(typeof(events));      
     } catch (error) {
         res.status(400).send(error.message);
     }
@@ -52,11 +53,21 @@ const deleteEvent = async (req, res, next) => {
     }
 }
 
+const searchEvent = async (req, res, next) => {
+    try {
+        const search = req.params.id;
+        const searchevent = await eventData.searchEvent(search);
+        res.send(searchevent);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+}
 
 module.exports = {
     getEvents,
     getEvent,
     addEvent,
     updateEvent,
-    deleteEvent
+    deleteEvent,
+    searchEvent
 }
